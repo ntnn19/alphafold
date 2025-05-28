@@ -77,7 +77,10 @@ RUN chmod u+s /sbin/ldconfig.real
 
 # Currently needed to avoid undefined_symbol error.
 RUN ln -sf /usr/lib/x86_64-linux-gnu/libffi.so.7 /opt/conda/lib/libffi.so.7
-
+# Clone gapTrick manually (bypass pip/git interaction)
+RUN git clone https://github.com/gchojnowski/gapTrick.git /tmp/gapTrick \
+    && pip install /tmp/gapTrick \
+    && rm -rf /tmp/gapTrick
 # We need to run `ldconfig` first to ensure GPUs are visible, due to some quirk
 # with Debian. See https://github.com/NVIDIA/nvidia-docker/issues/1399 for
 # details.
